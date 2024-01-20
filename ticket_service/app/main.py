@@ -1,12 +1,13 @@
 from fastapi import FastAPI, Depends, HTTPException
 from typing import Annotated
-from ticket_service.app.database.schemas.ticketDB import Ticket
-from ticket_service.app.database.schemas.trainDB import Train
-from ticket_service.app.database.database import engine, SessionLocal
+from database.schemas.ticketDB import Ticket
+from database.schemas.trainDB import Train
+from database.database import engine, SessionLocal
 from sqlalchemy.orm import Session
-from ticket_service.app.database import database as database
+from database import database as database
 import smtplib
 from email.mime.text import MIMEText
+from decouple import config
 
 app = FastAPI()
 database.Base.metadata.create_all(bind=engine)
@@ -41,7 +42,7 @@ def send_email(message: str, sender: str, receiver: str):
     server = smtplib.SMTP("smtp.gmail.com", 587)
     server.starttls()
 
-    server.login(sender, 'bxmq ndfl fmcv ybzh')
+    server.login(sender, config.GMAIL_SECRET)
     msg = MIMEText(message)
     msg['Subject'] = "Click me please"
     server.sendmail(sender, receiver, msg.as_string())
@@ -65,7 +66,7 @@ async def buy_ticket(direction: str,
                             train_id=train.id,
                             departure_date=train.departure_date)
             send_email(f"{ticket.user_name} {ticket.user_second_name}, your train departs on {ticket.departure_date}",
-                       "antonshepitko99@gmail.com",
+                       config.GMAIL,
                        ticket.user_email)
             train.remaining_seats -= 1
             db.add(ticket)

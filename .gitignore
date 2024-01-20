@@ -237,8 +237,9 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+ticket_service/.env
 .venv
+.env
 env/
 venv/
 ENV/
