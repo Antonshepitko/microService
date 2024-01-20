@@ -1,12 +1,10 @@
 from fastapi import FastAPI, Depends, HTTPException
-from pydantic import BaseModel
-from typing import List, Annotated
-from database.schemas.ticketDB import Ticket
-from database.schemas.trainDB import Train
-from database.database import engine, SessionLocal
+from typing import Annotated
+from ticket_service.app.database.schemas.ticketDB import Ticket
+from ticket_service.app.database.schemas.trainDB import Train
+from ticket_service.app.database.database import engine, SessionLocal
 from sqlalchemy.orm import Session
-from model.ticket import Ticket as TicketModel
-import database.database as database
+from ticket_service.app.database import database as database
 import smtplib
 from email.mime.text import MIMEText
 
