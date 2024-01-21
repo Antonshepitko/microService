@@ -53,7 +53,7 @@ def send_email(message: str, sender: str, receiver: str):
 
     return "Success"
 
-
+ё
 
 @app.post("/buy_ticket")
 async def buy_ticket(direction: str,
