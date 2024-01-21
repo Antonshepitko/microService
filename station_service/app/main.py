@@ -1,11 +1,11 @@
 from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
 from typing import List, Annotated
-from database.schemas.trainDB import Train
-from database.database import engine, SessionLocal
+from app.database.schemas.trainDB import Train
+from app.database.database import engine, SessionLocal
 from sqlalchemy.orm import Session
-from model.train import Train as TrainModel
-import database.database as database
+from app.model.train import Train as TrainModel
+import app.database.database as database
 
 app = FastAPI()
 database.Base.metadata.create_all(bind=engine)
@@ -21,6 +21,10 @@ def get_db():
 
 db_dependency = Annotated[Session, Depends(get_db)]
 
+
+@app.get("/alive", status_code=status.HTTP_200_OK)
+async def station_alive():
+    return {'message' : 'service alive'}
 
 @app.get("/trains")
 async def fetch_trains(db: db_dependency):

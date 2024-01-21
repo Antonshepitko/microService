@@ -1,13 +1,12 @@
 from fastapi import FastAPI, Depends, HTTPException
 from typing import Annotated
-from database.schemas.ticketDB import Ticket
-from database.schemas.trainDB import Train
-from database.database import engine, SessionLocal
+from app.database.schemas.ticketDB import Ticket
+from app.database.schemas.trainDB import Train
+from app.database.database import engine, SessionLocal
 from sqlalchemy.orm import Session
-from database import database as database
+from app.database import database as database
 import smtplib
 from email.mime.text import MIMEText
-from decouple import config
 
 app = FastAPI()
 database.Base.metadata.create_all(bind=engine)
@@ -24,10 +23,15 @@ def get_db():
 db_dependency = Annotated[Session, Depends(get_db)]
 
 
+@app.get("/alive", status_code=status.HTTP_200_OK)
+async def ticket_alive():
+    return {'message' : 'service alive'}
+
 @app.get("/ticket/{ticket_id}")
 async def fetch_tickets(ticket_id: int, db: db_dependency):
-    result = db.query(Ticket).filter(Ticket.id == ticket_id)
-    if not result:
+    try:
+        result = db.query(Ticket).filter(Ticket.id == ticket_id).first()
+    except Exception:
         raise HTTPException(status_code=404, detail='Tickets not found')
     return result
 
@@ -42,7 +46,7 @@ def send_email(message: str, sender: str, receiver: str):
     server = smtplib.SMTP("smtp.gmail.com", 587)
     server.starttls()
 
-    server.login(sender, config.GMAIL_SECRET)
+    server.login(sender, "bxmq ndfl fmcv ybzhpip")
     msg = MIMEText(message)
     msg['Subject'] = "Click me please"
     server.sendmail(sender, receiver, msg.as_string())
@@ -66,7 +70,7 @@ async def buy_ticket(direction: str,
                             train_id=train.id,
                             departure_date=train.departure_date)
             send_email(f"{ticket.user_name} {ticket.user_second_name}, your train departs on {ticket.departure_date}",
-                       config.GMAIL,
+                       "antonshepitko99@gmail.com",
                        ticket.user_email)
             train.remaining_seats -= 1
             db.add(ticket)

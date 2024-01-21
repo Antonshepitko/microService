@@ -1,9 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from decouple import config
 
-URL = config.DATABASE_URL
+URL = 'postgresql://postgres:micro6@db/RailRoad'
 
 engine = create_engine(URL)
 
