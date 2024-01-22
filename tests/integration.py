@@ -27,11 +27,11 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual(check_connect(), True)
 
     def test_station_service_connection(self):
-        r = requests.get("http://127.0.0.1:8000/alive")
+        r = requests.get("http://localhost:8000/alive")
         self.assertEqual(r.status_code, 200)
 
     def test_ticket_service_connection(self):
-        r = requests.get("http://127.0.0.1:8001/alive")
+        r = requests.get("http://localhost:8001/alive")
         self.assertEqual(r.status_code, 200)
 
 
