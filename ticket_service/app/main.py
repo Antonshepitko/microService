@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, status
 from typing import Annotated
 from app.database.schemas.ticketDB import Ticket
 from app.database.schemas.trainDB import Train
@@ -52,8 +52,6 @@ def send_email(message: str, sender: str, receiver: str):
     server.sendmail(sender, receiver, msg.as_string())
 
     return "Success"
-
-ё
 
 @app.post("/buy_ticket")
 async def buy_ticket(direction: str,

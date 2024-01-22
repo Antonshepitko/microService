@@ -1,7 +1,7 @@
 import os
 
 import uvicorn
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, status
 from pydantic import BaseModel
 from typing import List, Annotated
 from app.database.schemas.trainDB import Train
