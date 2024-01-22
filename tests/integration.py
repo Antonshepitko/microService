@@ -1,7 +1,6 @@
 import unittest
 import requests
 import psycopg2
-import pytest
 from time import sleep
 
 
