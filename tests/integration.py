@@ -24,7 +24,7 @@ class TestIntegration(unittest.TestCase):
 
     def test_db_connection(self):
         sleep(5)
-        self.assertEqual(checkConnect(), True)
+        self.assertEqual(check_connect(), True)
 
     def test_station_service_connection(self):
         r = requests.get("http://127.0.0.1:8000/alive")
