@@ -27,7 +27,8 @@ db_dependency = Annotated[Session, Depends(get_db)]
 
 @app.get("/alive", status_code=status.HTTP_200_OK)
 async def station_alive():
-    return {'message' : 'service alive'}
+    return {'message': 'service alive'}
+
 
 @app.get("/trains")
 async def fetch_trains(db: db_dependency):
@@ -45,6 +46,7 @@ async def add_trains(train: TrainModel, db: db_dependency):
     db.commit()
     db.refresh(db_train)
 
+
 @app.post("/delete_train")
 async def delete_train(train_id: int, db: db_dependency):
     try:
@@ -56,5 +58,6 @@ async def delete_train(train_id: int, db: db_dependency):
     except Exception as _ex:
         raise HTTPException(status_code=404, detail='Train not found')
 
+
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv('PORT0', 80)))
+    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv('PORT', 80)))
