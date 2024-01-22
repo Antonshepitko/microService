@@ -34,6 +34,5 @@ class TestIntegration(unittest.TestCase):
         r = requests.get("http://localhost:8001/health")
         self.assertEqual(r.status_code, 200)
 
-
 if __name__ == '__main__':
     unittest.main()
