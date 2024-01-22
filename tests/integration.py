@@ -1,6 +1,7 @@
 import unittest
 import requests
 import psycopg2
+import pytest
 from time import sleep
 
 
@@ -27,11 +28,11 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual(check_connect(), True)
 
     def test_station_service_connection(self):
-        r = requests.get("http://localhost:8000/alive")
+        r = requests.get("http://localhost:8000/health")
         self.assertEqual(r.status_code, 200)
 
     def test_ticket_service_connection(self):
-        r = requests.get("http://localhost:8001/alive")
+        r = requests.get("http://localhost:8001/health")
         self.assertEqual(r.status_code, 200)
 
 
