@@ -67,6 +67,8 @@ jobs:
         folder-id: ${{ secrets.YC_FOLDER_ID }}
         revision-image-url: cr.yandex/${{ secrets.YC_REGISTRY_ID }}/ms-station-services:latest
         revision-service-account-id: ${{ secrets.YC_SA_ID }}
+        revision-env: |
+          POSTGRES_URL=${{ secrets.ENV_POSTGRES_URL }}
 
   build_and_push_ticket_service:
     name: Build and push ticket service to DockerHub
