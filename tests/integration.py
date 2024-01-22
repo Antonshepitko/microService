@@ -10,7 +10,7 @@ def check_connect():
             dbname='RailRoad',
             user='postgres',
             password='micro6',
-            host='db',
+            host='localhost',
             port='5432'
         )
         conn.close()
