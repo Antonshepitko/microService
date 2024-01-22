@@ -43,7 +43,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          cd user_service && docker build -f Dockerfile . --tag cr.yandex/${{ secrets.YC_REGISTRY_ID }}/ms-user-services:latest --platform=linux/amd64
+          cd user_service && docker build -f Dockerfile . --tag cr.yandex/${{ secrets.YC_REGISTRY_ID }}/ms-station-services:latest --platform=linux/amd64
 
       - name: Login to Yandex Cloud
         uses: docker/login-action@v3.0.0
@@ -54,7 +54,7 @@ jobs:
 
       - name: Push tag to Yandex Cloud
         run: | 
-          docker push cr.yandex/${{ secrets.YC_REGISTRY_ID }}/ms-user-services:latest
+          docker push cr.yandex/${{ secrets.YC_REGISTRY_ID }}/ms-station-services:latest
 
   deploy:
     name: Deploy
@@ -79,7 +79,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          cd document_service && docker build -f Dockerfile . -t ${{ secrets.DOCKER_USERNAME }}/ms-document-services:latest 
+          cd document_service && docker build -f Dockerfile . -t ${{ secrets.DOCKER_USERNAME }}/ms-ticket-services:latest 
 
       - name: Login to DockerHub
         uses: docker/login-action@v3.0.0
@@ -89,4 +89,4 @@ jobs:
 
       - name: Push tag to docker hub
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/ms-document-services:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/ms-ticket-services:latest
