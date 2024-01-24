@@ -5,7 +5,7 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from pydantic import BaseModel
 from typing import List, Annotated
 from sqlalchemy.orm import Session
-from app.model.train import Train as TrainModel
+from model.train import Train as TrainModel
 from datetime import datetime
 from uuid import UUID
 
@@ -25,9 +25,6 @@ db: List[TrainModel] = [
 @app.get("/health", status_code=status.HTTP_200_OK)
 async def station_alive():
     return {'message': 'service alive'}
-
-if __name__ == "__main__":
-    uvicorn.run(app,host="0.0.0.0", port=int(os.getenv('PORT', 80)))
 
 
 @app.get("/trains")
@@ -51,3 +48,7 @@ async def delete_user(train_id: UUID):
         status_code=404,
         detail=f'train with {train_id} does not exist'
     )
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv('PORT', 80)))
