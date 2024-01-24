@@ -25,7 +25,8 @@ db_dependency = Annotated[Session, Depends(get_db)]
 
 @app.get("/health", status_code=status.HTTP_200_OK)
 async def ticket_alive():
-    return {'message' : 'service alive'}
+    return {'message': 'service alive'}
+
 
 @app.get("/ticket/{ticket_id}")
 async def fetch_tickets(ticket_id: int, db: db_dependency):
@@ -53,6 +54,7 @@ def send_email(message: str, sender: str, receiver: str):
 
     return "Success"
 
+
 @app.post("/buy_ticket")
 async def buy_ticket(direction: str,
                      name: str,
@@ -74,6 +76,6 @@ async def buy_ticket(direction: str,
             db.add(ticket)
             db.commit()
             db.refresh(ticket)
+            return {'id: ', ticket.id}
     except HTTPException as e:
         print(f"Error: {e}")
-

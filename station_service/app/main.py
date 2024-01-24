@@ -38,8 +38,19 @@ async def add_trains(train: TrainModel):
     return {"id": train.id}
 
 
-@app.delete("/trains/{train_id}")
-async def delete_user(train_id: UUID):
+@app.get("/train_by_id/{train_id}")
+async def find_train_by_id(train_id: UUID):
+    for train in db:
+        if train.id == train_id:
+            return train
+    raise HTTPException(
+        status_code=404,
+        detail=f'train with {train_id} does not exist'
+    )
+
+
+@app.delete("/delele_train/{train_id}")
+async def delete_train(train_id: UUID):
     for train in db:
         if train.id == train_id:
             db.remove(train)

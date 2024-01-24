@@ -1,7 +1,21 @@
 import unittest
+import pytest
 import requests
 import psycopg2
 from time import sleep
+
+station_url = 'https://localhost:8000'
+ticket_url = 'https://localhost:8001'
+add_train_url = f'{server_url}/add_train'
+find_train_by_id_url = f'{station_url}/train_by_id/'
+
+train_data = {
+    "id": str(uuid4()),
+    "model": "TrainModel123",
+    "direction": "SomeDirection",
+    "departure_date": str(datetime.now()),
+    "remaining_seats": 50
+}
 
 
 def check_connect():
@@ -33,6 +47,13 @@ class TestIntegration(unittest.TestCase):
     def test_ticket_service_connection(self):
         r = requests.get("http://localhost:8001/health")
         self.assertEqual(r.status_code, 200)
+
+    def test_get_train(self):
+        res = requests.get("http://localhost:8000/86f053a0-0dd1-4439-ba43-bdf586220bd2")
+        res = json.loads(res.text)[0]
+        pytest.assume(res['model'] == 'Test')
+        pytest.assume(res['direction'] == 'St. Petersburg')
+
 
 if __name__ == '__main__':
     unittest.main()
