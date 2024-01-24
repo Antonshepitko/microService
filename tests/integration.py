@@ -1,7 +1,7 @@
 import unittest
 import requests
 import psycopg2
-
+from time import sleep
 
 def check_connect():
     try:
