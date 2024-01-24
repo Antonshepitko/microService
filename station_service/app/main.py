@@ -4,7 +4,6 @@ import uvicorn
 from fastapi import FastAPI, Depends, HTTPException, status
 from pydantic import BaseModel
 from typing import List, Annotated
-from app.database.database import engine, SessionLocal
 from sqlalchemy.orm import Session
 from app.model.train import Train as TrainModel
 from datetime import datetime
