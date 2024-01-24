@@ -1,5 +1,4 @@
 import unittest
-import pytest
 import requests
 import psycopg2
 
@@ -37,8 +36,8 @@ class TestIntegration(unittest.TestCase):
     def test_get_train(self):
         res = requests.get(f"https://localhost:8000/get_train_by_id/86f053a0-0dd1-4439-ba43-bdf586220bd2", verify=False)
         res = json.loads(res.text)[0]
-        pytest.assume(res['model'] == 'Test')
-        pytest.assume(res['direction'] == 'St. Petersburg')
+        self.assertEqual(res['model'], 'Test')
+        self.assertEqual(res['direction'], 'St. Petersburg')
 
 
 if __name__ == '__main__':
