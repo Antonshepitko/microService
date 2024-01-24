@@ -57,3 +57,7 @@ async def delete_train(train_id: int, db: db_dependency):
         db.commit()
     except Exception as _ex:
         raise HTTPException(status_code=404, detail='Train not found')
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv('PORT', 80)))
