@@ -43,15 +43,15 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual(check_connect(), True)
 
     def test_station_service_connection(self):
-        r = requests.get("station_url/health")
+        r = requests.get(f"{station_url}/health")
         self.assertEqual(r.status_code, 200)
 
     def test_ticket_service_connection(self):
-        r = requests.get("ticket_url/health")
+        r = requests.get(f"{ticket_url}/health")
         self.assertEqual(r.status_code, 200)
 
     def test_get_train(self):
-        res = requests.get("get_train_by_id_url/86f053a0-0dd1-4439-ba43-bdf586220bd2")
+        res = requests.get(f"{get_train_by_id_url}/86f053a0-0dd1-4439-ba43-bdf586220bd2")
         res = json.loads(res.text)[0]
         pytest.assume(res['model'] == 'Test')
         pytest.assume(res['direction'] == 'St. Petersburg')
