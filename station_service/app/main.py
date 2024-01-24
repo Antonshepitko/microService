@@ -4,23 +4,22 @@ import uvicorn
 from fastapi import FastAPI, Depends, HTTPException, status
 from pydantic import BaseModel
 from typing import List, Annotated
-from app.database.schemas.trainDB import Train
 from app.database.database import engine, SessionLocal
 from sqlalchemy.orm import Session
 from app.model.train import Train as TrainModel
-import app.database.database as database
+from datetime import datetime
 
 app = FastAPI()
-database.Base.metadata.create_all(bind=engine)
 
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
+db: List[TrainModel] = [
+    TrainModel(
+        id=UUID('86f053a0-0dd1-4439-ba43-bdf586220bd2'),
+        model='Test',
+        direction="St. Petersburg",
+        departure_date=datetime(2022, 5, 15, 12, 30, 0),
+        remaining_seats=10
+    )
+]
 
 db_dependency = Annotated[Session, Depends(get_db)]
 
@@ -31,30 +30,23 @@ async def station_alive():
 
 
 @app.get("/trains")
-async def fetch_trains(db: db_dependency):
-    result = db.query(Train).all()
-    return result
+async def fetch_trains():
+    return db
 
 
 @app.post("/add_train")
-async def add_trains(train: TrainModel, db: db_dependency):
-    db_train = Train(model=train.model,
-                     direction=train.direction,
-                     departure_date=train.departure_date,
-                     remaining_seats=train.remaining_seats)
-    db.add(db_train)
-    db.commit()
-    db.refresh(db_train)
+async def add_trains(train: TrainModel):
+    db.append(train)
+    return {"id": train.id}
 
 
-@app.post("/delete_train")
-async def delete_train(train_id: int, db: db_dependency):
-    try:
-        train = db.query(Train).filter(
-            Train.id == train_id,
-        ).first()
-        db.delete(train)
-        db.commit()
-    except Exception as _ex:
-        raise HTTPException(status_code=404, detail='Train not found')
-
+@app.delete("/trains/{train_id}")
+async def delete_user(train_id: UUID):
+    for train in db:
+        if train.id == train_id:
+            db.remove(train)
+            return
+    raise HTTPException(
+        status_code=404,
+        detail=f'train with {train_id} does not exist'
+    )
