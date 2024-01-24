@@ -1,11 +1,13 @@
-FROM python:latest
-LABEL Maintainer="anton.shepitko"
-WORKDIR /usr/app/src
-COPY main.py ./
-COPY requirements.txt ./
-RUN pip install -r requirements.txt
-ENV PYTHONUNBUFFERED 1
-COPY . .
-EXPOSE 8080
+FROM python:3.10
 
-CMD ["python", "app/main.py"]
+WORKDIR /code
+
+COPY ./requirements.txt /code/requirements.txt
+
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+
+COPY ./app /code/app
+
+EXPOSE 80
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
