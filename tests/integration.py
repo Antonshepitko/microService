@@ -6,8 +6,8 @@ from time import sleep
 
 station_url = 'https://localhost:8000'
 ticket_url = 'https://localhost:8001'
-add_train_url = f'{server_url}/add_train'
-find_train_by_id_url = f'{station_url}/train_by_id/'
+add_train_url = f'{station_url}/add_train'
+get_train_by_id_url = f'{station_url}/get_train_by_id/'
 
 train_data = {
     "id": str(uuid4()),
@@ -41,15 +41,15 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual(check_connect(), True)
 
     def test_station_service_connection(self):
-        r = requests.get("http://localhost:8000/health")
+        r = requests.get("station_url/health")
         self.assertEqual(r.status_code, 200)
 
     def test_ticket_service_connection(self):
-        r = requests.get("http://localhost:8001/health")
+        r = requests.get("ticket_url/health")
         self.assertEqual(r.status_code, 200)
 
     def test_get_train(self):
-        res = requests.get("http://localhost:8000/86f053a0-0dd1-4439-ba43-bdf586220bd2")
+        res = requests.get("get_train_by_id_url/86f053a0-0dd1-4439-ba43-bdf586220bd2")
         res = json.loads(res.text)[0]
         pytest.assume(res['model'] == 'Test')
         pytest.assume(res['direction'] == 'St. Petersburg')

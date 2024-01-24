@@ -38,8 +38,8 @@ async def add_trains(train: TrainModel):
     return {"id": train.id}
 
 
-@app.get("/train_by_id/{train_id}")
-async def find_train_by_id(train_id: UUID):
+@app.get("/get_train_by_id/{train_id}")
+async def get_train_by_id(train_id: UUID):
     for train in db:
         if train.id == train_id:
             return train
