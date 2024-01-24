@@ -1,10 +1,10 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from typing import Annotated
-from app.database.schemas.ticketDB import Ticket
-from app.database.schemas.trainDB import Train
-from app.database.database import engine, SessionLocal
+from database.schemas.ticketDB import Ticket
+from database.schemas.trainDB import Train
+from database.database import engine, SessionLocal
 from sqlalchemy.orm import Session
-from app.database import database as database
+from database import database as database
 import smtplib
 from email.mime.text import MIMEText
 
