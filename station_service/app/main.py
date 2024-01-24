@@ -8,6 +8,7 @@ from app.database.database import engine, SessionLocal
 from sqlalchemy.orm import Session
 from app.model.train import Train as TrainModel
 from datetime import datetime
+from uuid import UUID
 
 app = FastAPI()
 
@@ -20,8 +21,6 @@ db: List[TrainModel] = [
         remaining_seats=10
     )
 ]
-
-db_dependency = Annotated[Session, Depends(get_db)]
 
 
 @app.get("/health", status_code=status.HTTP_200_OK)
