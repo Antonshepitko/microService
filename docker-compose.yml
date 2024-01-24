@@ -18,8 +18,6 @@ services:
     build: ./station_service/
     ports:
       - "8000:80"
-    depends_on:
-      - db
 
   ticket_service:
     restart: on-failure
