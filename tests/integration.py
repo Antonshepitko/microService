@@ -30,15 +30,15 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual(check_connect(), True)
 
     def test_station_service_connection(self):
-        r = requests.get("https://localhost:8000/health")
+        r = requests.get("https://localhost:8000/health", verify=False)
         self.assertEqual(r.status_code, 200)
 
     def test_ticket_service_connection(self):
-        r = requests.get("https://localhost:8001/health")
+        r = requests.get("https://localhost:8001/health", verify=False)
         self.assertEqual(r.status_code, 200)
 
     def test_get_train(self):
-        res = requests.get(f"https://localhost:8000/get_train_by_id/86f053a0-0dd1-4439-ba43-bdf586220bd2")
+        res = requests.get(f"https://localhost:8000/get_train_by_id/86f053a0-0dd1-4439-ba43-bdf586220bd2", verify=False)
         res = json.loads(res.text)[0]
         pytest.assume(res['model'] == 'Test')
         pytest.assume(res['direction'] == 'St. Petersburg')
