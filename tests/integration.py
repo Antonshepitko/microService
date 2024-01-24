@@ -2,6 +2,7 @@ import unittest
 import pytest
 import requests
 import psycopg2
+from datetime import datetime
 from time import sleep
 from uuid import uuid4
 
