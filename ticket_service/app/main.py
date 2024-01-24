@@ -80,5 +80,3 @@ async def buy_ticket(direction: str,
     except HTTPException as e:
         print(f"Error: {e}")
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv('PORT', 80)))
