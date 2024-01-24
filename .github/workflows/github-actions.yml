@@ -24,14 +24,11 @@ jobs:
       - name: Prepare for tests (compose up)
         run: docker compose up -d --build
 
-      - name: Wait for services to start
-        run: sleep 10
-
       - name: Run integration test
         run: python tests/integration.py
 
-#      - name: Run component test
-#        run: python tests/component.py
+      #      - name: Run component test
+      #        run: python tests/component.py
 
       - name: Clean up (compose down)
         run: docker compose down
@@ -39,7 +36,7 @@ jobs:
   build_and_push_station_service:
     name: Build and push station service to Yandex Cloud
     runs-on: ubuntu-latest
-    needs: [test]
+    needs: [ test ]
     steps:
       - uses: actions/checkout@v3
 
@@ -55,29 +52,29 @@ jobs:
           password: ${{ secrets.YC_KEYS }}
 
       - name: Push tag to Yandex Cloud
-        run: | 
+        run: |
           docker push cr.yandex/${{ secrets.YC_REGISTRY_ID }}/ms-station-services:latest
 
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    needs: [build_and_push_station_service]
+    needs: [ build_and_push_station_service ]
     steps:
-    - name: Deploy serverless container
-      uses: yc-actions/yc-sls-container-deploy@v1
-      with:
-        yc-sa-json-credentials: ${{ secrets.YC_KEYS }}
-        container-name: ${{ secrets.YC_CONTAINER_NAME }}
-        folder-id: ${{ secrets.YC_FOLDER_ID }}
-        revision-image-url: cr.yandex/${{ secrets.YC_REGISTRY_ID }}/ms-station-services:latest
-        revision-service-account-id: ${{ secrets.YC_SA_ID }}
-        revision-env: |
-          POSTGRES_URL=${{ secrets.ENV_POSTGRES_URL }}
+      - name: Deploy serverless container
+        uses: yc-actions/yc-sls-container-deploy@v1
+        with:
+          yc-sa-json-credentials: ${{ secrets.YC_KEYS }}
+          container-name: ${{ secrets.YC_CONTAINER_NAME }}
+          folder-id: ${{ secrets.YC_FOLDER_ID }}
+          revision-image-url: cr.yandex/${{ secrets.YC_REGISTRY_ID }}/ms-station-services:latest
+          revision-service-account-id: ${{ secrets.YC_SA_ID }}
+          revision-env: |
+            POSTGRES_URL=${{ secrets.ENV_POSTGRES_URL }}
 
   build_and_push_ticket_service:
     name: Build and push ticket service to DockerHub
     runs-on: ubuntu-latest
-    needs: [test]
+    needs: [ test ]
     steps:
       - uses: actions/checkout@v3
 

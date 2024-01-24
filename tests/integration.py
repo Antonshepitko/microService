@@ -3,6 +3,7 @@ import pytest
 import requests
 import psycopg2
 from time import sleep
+from uuid import uuid4
 
 station_url = 'https://localhost:8000'
 ticket_url = 'https://localhost:8001'
