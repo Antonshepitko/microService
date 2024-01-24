@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI, Depends, HTTPException, status
 from typing import Annotated
 from database.schemas.ticketDB import Ticket
@@ -6,6 +8,7 @@ from database.database import engine, SessionLocal
 from sqlalchemy.orm import Session
 from database import database as database
 import smtplib
+import uvicorn
 from email.mime.text import MIMEText
 
 app = FastAPI()

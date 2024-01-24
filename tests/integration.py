@@ -37,7 +37,7 @@ class TestIntegration(unittest.TestCase):
 
     def test_get_train(self):
         res = requests.get(f"http://localhost:8000/get_train_by_id/86f053a0-0dd1-4439-ba43-bdf586220bd2", verify=False)
-        res = json.loads(res.text)[0]
+        res = json.loads(res.text)
         self.assertEqual(res['model'], 'Test')
         self.assertEqual(res['direction'], 'St. Petersburg')
 
