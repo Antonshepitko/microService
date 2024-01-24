@@ -6,7 +6,7 @@ import json
 
 station_url = 'https://localhost:8000'
 ticket_url = 'https://localhost:8001'
-add_train_url = f'{server_url}/add_train'
+add_train_url = f'{station_url}/add_train'
 find_train_by_id_url = f'{station_url}/train_by_id/'
 
 train_data = {
