@@ -19,6 +19,7 @@ jobs:
           sudo apt update
           sudo apt install -y python3-pip
           pip install psycopg2-binary
+          pip install pytest
 
       - name: Prepare for tests (compose up)
         run: docker compose up -d --build
@@ -35,6 +36,7 @@ jobs:
   build_and_push_station_service:
     name: Build and push station service to Yandex Cloud
     runs-on: ubuntu-latest
+    needs: [ test ]
     steps:
       - uses: actions/checkout@v3
 
@@ -72,6 +74,7 @@ jobs:
   build_and_push_ticket_service:
     name: Build and push ticket service to DockerHub
     runs-on: ubuntu-latest
+    needs: [ test ]
     steps:
       - uses: actions/checkout@v3
 
