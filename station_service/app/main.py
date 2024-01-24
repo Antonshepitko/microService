@@ -26,6 +26,9 @@ db: List[TrainModel] = [
 async def station_alive():
     return {'message': 'service alive'}
 
+if __name__ == "__main__":
+    uvicorn.run(app,host="0.0.0.0", port=int(os.getenv('PORT', 80)))
+
 
 @app.get("/trains")
 async def fetch_trains():
