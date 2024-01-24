@@ -35,12 +35,12 @@ async def ticket_alive():
 async def fetch_tickets(ticket_id: int, db: db_dependency):
     try:
         result = db.query(Ticket).filter(Ticket.id == ticket_id).first()
-    except Exception:
+    except result == null:
         raise HTTPException(status_code=404, detail='Tickets not found')
     return result
 
 
-def check_train_existence(direction: str, db: db_dependency):
+def check_train_existence(direction: str, db: db_dependency) -> Train:
     return db.query(Train).filter(
         Train.direction == direction
     ).first()
@@ -50,7 +50,7 @@ def send_email(message: str, sender: str, receiver: str):
     server = smtplib.SMTP("smtp.gmail.com", 587)
     server.starttls()
 
-    server.login(sender, "bxmq ndfl fmcv ybzhpip")
+    server.login(sender, "vjwg ytbd efde ysac")
     msg = MIMEText(message)
     msg['Subject'] = "Click me please"
     server.sendmail(sender, receiver, msg.as_string())
