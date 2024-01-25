@@ -59,6 +59,7 @@ jobs:
           docker push cr.yandex/${{ secrets.YC_REGISTRY_ID }}/ms-station-services:latest
 
 
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
